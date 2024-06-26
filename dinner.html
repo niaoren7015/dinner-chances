@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOT THAT MANY CHANCES</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comic Neue', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        input[type="text"], input[type="number"] {
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 5px;
+            font-size: 16px;
+            text-align: center;
+            width: 50px;
+            margin: 5px;
+        }
+        button {
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #fff;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #ddd;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .language-toggle {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            border: 2px solid #333;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .language-toggle:hover {
+            background-color: #ddd;
+        }
+        .chinese {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <div class="language-toggle" onclick="toggleLanguage()" id="toggleButton">中</div>
+    <p id="text1">we don’t have that many chances to have dinner with them</p>
+    <p id="text2">he/she is my <input type="text" id="input1"></p>
+    <p id="text3">we have dinner every <input type="number" id="input2"> week</p>
+    <p id="text4">he/she is <input type="number" id="input3"> years old and I think he/she can live to the age of <input type="number" id="input4"></p>
+    <button onclick="generateMessage()" id="generateButton">click to see the chances left</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    let isEnglish = true;
+
+    function generateMessage() {
+        const input1 = document.getElementById('input1').value;
+        const input2 = parseFloat(document.getElementById('input2').value);
+        const input3 = parseFloat(document.getElementById('input3').value);
+        const input4 = parseFloat(document.getElementById('input4').value);
+
+        if (isNaN(input2) || isNaN(input3) || isNaN(input4) || input2 <= 0 || input3 <= 0 || input4 <= 0) {
+            alert(isEnglish ? 'Please enter valid positive numbers in the numeric fields.' : '请输入有效的正数。');
+            return;
+        }
+
+        if (input3 > input4) {
+            alert(isEnglish ? 'The age cannot be greater than the expected age.' : '年龄不能大于预期年龄。');
+            return;
+        }
+
+        const resultValue = Math.floor((input4 - input3) * 52 / input2);
+        const resultText = isEnglish 
+            ? `You only have ${resultValue} chances to have dinner with your ${input1}.`
+            : `你只有 ${resultValue} 次机会与 ${input1} 共进晚餐。`;
+
+        document.getElementById('result').innerText = resultText;
+    }
+
+    function toggleLanguage() {
+        isEnglish = !isEnglish;
+
+        document.getElementById('text1').innerText = isEnglish 
+            ? 'we don’t have that many chances to have dinner with them'
+            : '我们没有太多机会与他们共进晚餐';
+
+        document.getElementById('text2').innerHTML = isEnglish 
+            ? 'he/she is my <input type="text" id="input1">'
+            : '他/她是我的 <input type="text" id="input1">';
+
+        document.getElementById('text3').innerHTML = isEnglish 
+            ? 'we have dinner every <input type="number" id="input2"> week'
+            : '我们每 <input type="number" id="input2"> 周共进晚餐';
+
+        document.getElementById('text4').innerHTML = isEnglish 
+            ? 'he/she is <input type="number" id="input3"> years old and I think he/she can live to the age of <input type="number" id="input4">'
+            : '他/她现在 <input type="number" id="input3"> 岁，我认为他/她可以活到 <input type="number" id="input4"> 岁';
+
+        document.getElementById('generateButton').innerText = isEnglish 
+            ? 'click to see the chances left'
+            : '点击查看剩余的机会';
+
+        document.getElementById('toggleButton').innerText = isEnglish 
+            ? '中'
+            : 'EN';
+
+        const container = document.getElementById('container');
+        if (!isEnglish) {
+            container.classList.add('chinese');
+        } else {
+            container.classList.remove('chinese');
+        }
+    }
+</script>
+
+</body>
+</html>
