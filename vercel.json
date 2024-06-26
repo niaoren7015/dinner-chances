@@ -3,11 +3,5 @@
     {
       "src": "index.html",
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
   ]
 }
